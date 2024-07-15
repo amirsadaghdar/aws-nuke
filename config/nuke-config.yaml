@@ -1,0 +1,174 @@
+--- 
+account-blocklist: 
+  - "442961731577" # "BACKOFFICE_DEV"
+  - "395972338165" # "BACKOFFICE_PROD"
+  - "528260978273" # "BACKOFFICE_UAT"
+  - "706856086182" # "DEV"
+  - "636048982338" # "LOGGING"
+  - "628733845455" # "Marex PRD Org Admin"
+  - "319270727201" # "NEON_DEV"
+  - "148574480580" # "NEON_PROD"
+  - "340910980105" # "NEON_UAT"
+  - "783468712906" # "NETWORKING"
+  - "054669460988" # "Philip Lee"
+  - "324235065996" # "PROD"
+  - "541705403356" # "RND"
+  - "824229277864" # "SBX_ANTELOPE"
+  - "727836757917" # "SBX_CHEETAH"
+  - "022671092611" # "SBX_TERMITE"
+  #- "743984755198" # "SBX_TURTLE"
+  - "177418304542" # "SECURITY"
+  - "592762980331" # "security shared services"
+  - "972156694227" # "SHARED_DEV", 
+  - "175105646336" # "SHARED_PROD"
+  - "913899550250" # "SHARED_UAT"
+  - "189667852982" # "SHAREDSERVICES"
+  - "014053391478" # "SOLUTIONS_DEV"
+  - "040121589063" # "SOLUTIONS_PROD"
+  - "527417633391" # "SOLUTIONS_UAT"
+  - "206802009182" # "UAT"
+  - "021690202536" # "workspace",
+
+regions: 
+  - global
+  - eu-west-1
+
+resource-types:
+
+  targets:
+  #  - IAMUser
+  #  - IAMGroup
+  #  - IAMUserAccessKey
+  #  - EC2InternetGateway
+  #  - EC2VPC
+  #  # - EC2RouteTable - https://jira.marexspectron.com/browse/MCT-264 a name needs adding to the default routes before we can enable this
+  #  - EC2VPNGatewayAttachment
+    - EC2SecurityGroup
+  #  - EC2Subnet
+  #  - EC2VPCEndpoint
+  #  - ECRRepository
+  #  - CloudWatchLogsLogGroup
+  #  - ELBv2TargetGroup
+  #  # - ACMCertificate - ACM certs cannot be shared across accounts
+  #  - EC2KeyPair
+  #  - WAFv2IPSet
+  #  - WAFv2WebACL
+  #  - WAFv2RuleGroup
+  #  - RDSInstance
+  #  - RDSDBSubnetGroup
+  #  - RDSSnapshot
+  #  - ECSCluster
+  #  - ECSClusterInstance
+  #  - ECSService
+  #  - ELBv2TargetGroup
+  #  - ECSTaskDefinition
+  #  - LaunchConfiguration
+  #  - EC2Volume
+  #  - EC2Instance
+  #  - DynamoDBTable
+  #  - ELBv2
+  #  - AutoScalingGroup
+  #  - DynamoDBTableItem
+  #  - S3Bucket
+  # - S3Object
+  #  - ApplicationAutoScalingScalableTarget
+  #  - NeptuneInstance
+  #  #- SSMParameter
+  #  - CloudWatchAlarm
+  #   - SESIdentity
+  #   - SNSSubscription
+  #   - SNSTopic
+  #   - AccessAnalyzer
+  #   # keep these for now for the security report
+    #- LambdaFunction
+    #- CloudWatchEventsRule
+
+accounts: 
+  # "541705403356": # marexprd-rnd
+  #   presets:
+  #   - "website_common"
+  # "666470036714": # npd dev
+  #   presets:
+  #   - "website_common"
+  # "891533180651": # npd uat 
+  #   presets:
+  #   - "website_common"
+  # "993543511062": # npd prod
+  #   presets:
+  #   - "website_common"
+  "743984755198":
+    presets:
+      - "website_common"
+presets:
+  website_common:
+   filters:
+   # In this case any EC2Volume but the ones with a application tag will be filtered
+    EC2Volume:
+    - property: "tag:application"
+      invert: true
+    EC2SecurityGroup:
+    - property: "tag:application"
+      invert: true
+
+    # CloudWatchLogsLogGroup:
+    # - "RDSOSMetrics" 
+    # EC2InternetGateway: 
+    # - property: "tag:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-.*"
+    # EC2RouteTable: 
+    # - property: "tag:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-.*"
+    # EC2VPNGatewayAttachment: 
+    # - property: "tag:vgw:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-"
+    # EC2VPC: 
+    # - property: "tag:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-"
+    # EC2SecurityGroup:
+    # - property: "Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-|^spoke-.*"
+    # EC2Subnet:
+    # - property: "tag:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-"
+    # EC2VPCEndpoint:
+    # - property: "tag:Name"
+    #   type: regex
+    #   value: "^\\w{2}\\d-"
+    # DynamoDBTable:
+    # - property: "Identifier"
+    #   type: regex
+    #   value: "^tfc-*|.*statelocks"
+    # DynamoDBTableItem:
+    # - property: "Table"
+    #   type: regex
+    #   value: "^tfc-.*|.*statelocks"
+    # S3Bucket:
+    # - property: "Name"
+    #   type: regex
+    #   value: "^tfc-.*|^.*statefiles"
+    # S3Object:
+    # - property: "Bucket"
+    #   type: regex
+    #   value: "^tfc-.*|^.*statefiles.*"
+    # IAMUser:
+    #  - "bamboo"
+    #  - "power_bamboo"
+    #  - "nuke"
+    # IAMGroup:
+    #  - "docker-repo-write"
+    #  - "group-ecr-write"
+    #  - "group-ecr-read"
+    #  - "developers"
+    # IAMUserAccessKey:
+    # - property: "UserName"
+    #   type: regex
+    #   value: ".*bamboo.*"
+    # - property: "UserName"
+    #   type: regex
+    #   value: "nuke"

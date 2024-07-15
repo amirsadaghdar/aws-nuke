@@ -1,0 +1,34 @@
+---
+regions:
+- "global" # This is for all global resource types e.g. IAM
+- "eu-west-1"
+
+account-blocklist:
+- 1234567890
+
+# optional: restrict nuking to these resources
+resource-types:
+  targets:
+  # - APIGatewayV2VpcLink
+  # - APIGatewayVpcLink
+  - EC2VPC
+  # - EC2VPCEndpoint
+  # - EC2VPCEndpointConnection
+  # - EC2VPCEndpointServiceConfiguration
+  # - EC2VPCPeeringConnection
+  # - OSVPCEndpoint
+  # - EC2Subnet
+
+accounts: 
+  "047838238778":
+    presets:
+      - "website_common"
+
+presets:
+  website_common:
+   filters:
+   # In this case any EC2Volume but the ones with a application tag will be filtered
+    EC2VPC:
+    - property: "tag:nuke"
+      value: "yes"
+      invert: true
